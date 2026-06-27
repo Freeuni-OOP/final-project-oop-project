@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create account &mdash; Quiz Website</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="auth-container">
+    <h1>Quiz Website</h1>
+    <h2>Create an account</h2>
+
+    <p th:if="${error}" class="error" th:text="${error}">error</p>
+
+    <form method="post" th:action="@{/register}">
+        <label>Username
+            <input type="text" name="username" th:value="${username}" required autofocus>
+        </label>
+        <label>Password
+            <input type="password" name="password" required>
+        </label>
+        <label>Confirm password
+            <input type="password" name="confirm" required>
+        </label>
+        <button type="submit">Create account</button>
+    </form>
+
+    <p>Already have an account? <a th:href="@{/login}">Log in</a>.</p>
+</div>
+</body>
+</html>

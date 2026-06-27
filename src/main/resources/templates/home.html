@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <h1>Welcome, <span th:text="${session.user.username}">user</span></h1>
+    <p class="muted">Your dashboard will appear here.</p>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
