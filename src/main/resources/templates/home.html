@@ -6,7 +6,12 @@
 <main class="site-main">
 
     <h1>Welcome, <span th:text="${session.user.username}">user</span></h1>
-    <p class="muted">Your dashboard will appear here.</p>
+
+    <section>
+        <p class="muted">
+            Dashboard elements will be added later
+        </p>
+    </section>
 
 </main>
 <footer th:replace="~{fragments/layout :: footer}"></footer>
