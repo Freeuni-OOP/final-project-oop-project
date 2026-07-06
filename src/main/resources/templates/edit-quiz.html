@@ -31,6 +31,11 @@
         <a class="btn-primary" th:href="@{/quizzes/add-question(quizId=${quiz.id})}">Add a multiple-choice question</a>
     </section>
 
+    <section>
+        <h2>Done?</h2>
+        <a class="btn-primary" th:href="@{/quizzes/view(id=${quiz.id})}">Finish &amp; view quiz</a>
+    </section>
+
 </main>
 </body>
 </html>

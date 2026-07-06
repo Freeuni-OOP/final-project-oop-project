@@ -122,6 +122,18 @@ public class QuizController {
         return "redirect:/quizzes/edit?id=" + quiz.getId();
     }
 
+    // ---------- quiz summary ----------
+
+    @GetMapping("/view")
+    public String view(@RequestParam int id, HttpSession session, Model model) {
+        Quiz quiz = quizService.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        User user = SessionKeys.currentUser(session);
+        model.addAttribute("quiz", quiz);
+        model.addAttribute("isOwner", user.getId().equals(quiz.getCreatorId()));
+        return "quiz-summary";
+    }
+
     // ---------- helpers ----------
 
     /** Loads a quiz and checks that the logged-in user is its creator. */

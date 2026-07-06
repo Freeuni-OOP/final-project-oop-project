@@ -14,7 +14,7 @@
             <thead><tr><th>Name</th><th>By</th><th>Created</th></tr></thead>
             <tbody>
             <tr th:each="q : ${quizzes}">
-                <td th:text="${q.name}">quiz</td>
+                <td><a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a></td>
                 <td th:text="${q.creatorUsername}">creator</td>
                 <td th:text="${q.createdAt}">created</td>
             </tr>
