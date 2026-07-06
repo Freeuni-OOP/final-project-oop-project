@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Add question — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <h1>Add a question to: <span th:text="${quiz.name}">name</span></h1>
+
+    <p th:if="${error}" class="error" th:text="${error}">error</p>
+
+    <form method="post" th:action="@{/quizzes/add-question}" class="card-form">
+        <input type="hidden" name="quizId" th:value="${quiz.id}">
+
+        <label>Question text
+            <textarea name="body" rows="3" required th:text="${body}"></textarea>
+        </label>
+
+        <fieldset>
+            <legend>Choices &mdash; select the radio button next to the correct one</legend>
+            <div th:each="i : ${#numbers.sequence(0, choiceFields - 1)}" class="choice-row">
+                <input type="radio" name="correct" th:value="${i}" th:checked="${i == 0}">
+                <input type="text" name="choice" th:placeholder="'Choice ' + (${i} + 1)">
+            </div>
+        </fieldset>
+
+        <button type="submit">Save question</button>
+        <a class="btn-link" th:href="@{/quizzes/edit(id=${quiz.id})}">Cancel</a>
+    </form>
+
+</main>
+</body>
+</html>

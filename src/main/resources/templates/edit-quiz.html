@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Editing — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Edit quiz: <span th:text="${quiz.name}">name</span></h1>
+        <p class="muted" th:text="${quiz.description != null and !quiz.description.isEmpty()} ? ${quiz.description} : 'No description'">desc</p>
+    </section>
+
+    <section>
+        <h2>Questions (<span th:text="${quiz.questions.size()}">0</span>)</h2>
+        <p th:if="${#lists.isEmpty(quiz.questions)}" class="muted">No questions yet — add your first below.</p>
+        <ol th:unless="${#lists.isEmpty(quiz.questions)}" class="question-list">
+            <li th:each="q : ${quiz.questions}">
+                <span th:text="${q.body}">body</span>
+                <ul class="answer-list">
+                    <li th:each="a : ${q.answers}">
+                        <span th:text="${a.text}">answer</span>
+                        <span th:if="${a.correct}" class="badge">correct</span>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Add a question</h2>
+        <a class="btn-primary" th:href="@{/quizzes/add-question(quizId=${quiz.id})}">Add a multiple-choice question</a>
+    </section>
+
+</main>
+</body>
+</html>
