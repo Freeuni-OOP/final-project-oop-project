@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('All quizzes — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>All quizzes</h1>
+        <p><a class="btn-primary" th:href="@{/quizzes/new}">Create a quiz</a></p>
+
+        <p th:if="${#lists.isEmpty(quizzes)}" class="muted">No quizzes yet. Be the first to create one!</p>
+        <table th:unless="${#lists.isEmpty(quizzes)}" class="data-table">
+            <thead><tr><th>Name</th><th>By</th><th>Created</th></tr></thead>
+            <tbody>
+            <tr th:each="q : ${quizzes}">
+                <td th:text="${q.name}">quiz</td>
+                <td th:text="${q.creatorUsername}">creator</td>
+                <td th:text="${q.createdAt}">created</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+</body>
+</html>
