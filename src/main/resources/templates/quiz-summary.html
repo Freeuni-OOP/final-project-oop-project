@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Quiz — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1 th:text="${quiz.name}">Quiz</h1>
+        <p class="muted">
+            by <span th:text="${quiz.creatorUsername}">creator</span>
+            &middot; <span th:text="${quiz.questions.size()}">0</span> question(s)
+        </p>
+        <p th:if="${quiz.description != null and !quiz.description.isEmpty()}" th:text="${quiz.description}">desc</p>
+    </section>
+
+    <section>
+        <p th:if="${#lists.isEmpty(quiz.questions)}" class="muted">This quiz doesn't have any questions yet.</p>
+        <a th:if="${isOwner}" class="btn-link" th:href="@{/quizzes/edit(id=${quiz.id})}">Continue editing (add questions)</a>
+    </section>
+
+</main>
+</body>
+</html>

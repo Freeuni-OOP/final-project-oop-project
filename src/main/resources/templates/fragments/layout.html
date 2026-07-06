@@ -11,16 +11,13 @@
     <a class="brand" th:href="@{/home}">Quiz Website</a>
     <nav>
         <a th:href="@{/home}">Home</a>
+        <a th:href="@{/quizzes}">Browse quizzes</a>
+        <a th:href="@{/quizzes/new}">Create quiz</a>
     </nav>
     <div class="user-box" th:if="${session.user != null}">
         <span>Hi, <span th:text="${session.user.username}">user</span></span>
         <a th:href="@{/logout}">Log out</a>
     </div>
 </header>
-
-<footer th:fragment="footer" class="site-footer">
-    <small>CS108 Quiz Website &mdash; group project</small>
-</footer>
-
 </body>
 </html>
