@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
-/** Login, registration, and logout. Does not need authentication */
+/** Login, registration, and logout. These are the only auth-free pages. */
 @Controller
 public class AuthController {
 

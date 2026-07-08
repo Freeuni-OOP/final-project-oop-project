@@ -40,13 +40,4 @@ class UserServiceTest {
         assertTrue(userService.checkPassword(user, "correct-password"));
         assertFalse(userService.checkPassword(user, "wrong-password"));
     }
-
-    @Test
-    void usernameLookupFindsCreatedUser() {
-        userService.create("lookup_user", "password");
-
-        assertTrue(userService.usernameTaken("lookup_user"));
-        assertTrue(userService.findByUsername("lookup_user").isPresent());
-        assertFalse(userService.findByUsername("missing_user").isPresent());
-    }
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz title="Sample Import Quiz"
+      category="Demo"
+      tags="xml, sample, quiz"
+      random="true"
+      pageMode="multiple"
+      immediateCorrection="true">
+    <description>A small XML file for testing quiz import.</description>
+
+    <question type="QUESTION_RESPONSE">
+        <prompt>Who was President during the Bay of Pigs fiasco?</prompt>
+        <answer>John F. Kennedy</answer>
+        <answer>JFK</answer>
+    </question>
+
+    <question type="FILL_IN_BLANK">
+        <prompt>One of Lincoln's most famous speeches was the ________ Address.</prompt>
+        <answer>Gettysburg</answer>
+    </question>
+
+    <question type="MULTIPLE_CHOICE">
+        <prompt>Which planet is the largest in our solar system?</prompt>
+        <choice>Mercury</choice>
+        <choice>Earth</choice>
+        <choice>Jupiter</choice>
+        <choice>Mars</choice>
+        <correctChoice>Jupiter</correctChoice>
+    </question>
+
+    <question type="PICTURE_RESPONSE">
+        <prompt>Name the monument shown in the image.</prompt>
+        <imageUrl>https://upload.wikimedia.org/wikipedia/commons/a/a1/Statue_of_Liberty_7.jpg</imageUrl>
+        <answer>Statue of Liberty</answer>
+    </question>
+
+    <question type="MULTI_ANSWER" slots="3" ordered="false">
+        <prompt>Name three large U.S. cities.</prompt>
+        <answer>New York</answer>
+        <answer>Los Angeles</answer>
+        <answer>Chicago</answer>
+        <answer>Houston</answer>
+    </question>
+
+    <question type="MULTI_SELECT">
+        <prompt>Select every true statement.</prompt>
+        <choice>Stanford was established in 1891</choice>
+        <choice>The Moon is a star</choice>
+        <choice>Water is H2O</choice>
+        <correctChoice>Stanford was established in 1891</correctChoice>
+        <correctChoice>Water is H2O</correctChoice>
+    </question>
+</quiz>
