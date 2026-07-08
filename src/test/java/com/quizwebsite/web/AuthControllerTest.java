@@ -38,7 +38,7 @@ class AuthControllerTest {
 
         User saved = userRepository.findByUsername("mvc_register_user").orElseThrow();
         assertNotEquals("secret", saved.getPasswordHash());
-        assertTrue(saved.getSalt().matches("[0-9a-f]+"));
+        assertTrue(saved.getPasswordHash().startsWith("$2"));
     }
 
     @Test

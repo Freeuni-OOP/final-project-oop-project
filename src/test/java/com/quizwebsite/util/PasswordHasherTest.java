@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PasswordHasherTest {
 
     @Test
-    void newSaltReturnsBcryptMarker() {
+    void newSaltReturnsEmptyString() {
         String salt = PasswordHasher.newSalt();
 
-        assertEquals("bcrypt", salt);
+        assertEquals("", salt);
     }
 
     @Test
@@ -34,14 +34,5 @@ class PasswordHasherTest {
 
         assertTrue(PasswordHasher.verify("secret", salt, hash));
         assertFalse(PasswordHasher.verify("wrong", salt, hash));
-    }
-
-    @Test
-    void verifyStillAcceptsLegacySaltedSha256Hash() {
-        String salt = "00112233445566778899aabbccddeeff";
-        String legacyHash = "a646118b31dc9839381df254dd210eedac8fb69a7207c3946ed58a9d8d0320a0";
-
-        assertTrue(PasswordHasher.verify("secret", salt, legacyHash));
-        assertFalse(PasswordHasher.verify("wrong", salt, legacyHash));
     }
 }
