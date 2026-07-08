@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Results — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Results: <span th:text="${attempt.quiz.name}">Quiz</span></h1>
+        <p th:if="${attempt.practice}" class="badge">Practice mode &mdash; this attempt was not recorded</p>
+        <p th:if="${attempt.practice}" class="muted">
+            Practice complete: every question was answered correctly
+            <span th:text="${attempt.practiceCorrectTarget}">3</span> times during this session.
+        </p>
+        <p class="big-score">
+            Score: <strong th:text="${attempt.totalScore}">0</strong> / <span th:text="${attempt.maxScore}">0</span>
+        </p>
+        <p>Time taken:
+            <strong><span th:text="${elapsedMinutes}">0</span>m <span th:text="${elapsedRemainderSeconds}">0</span>s</strong>
+            (<span th:text="${attempt.elapsedSeconds}">0</span> seconds)
+        </p>
+        <p>
+            <a class="btn-primary" th:href="@{/quizzes/view(id=${attempt.quiz.id})}">Back to quiz page</a>
+            <a class="btn-link" th:href="@{/quizzes/take(id=${attempt.quiz.id})}">Take it again</a>
+        </p>
+    </section>
+
+    <section>
+        <h2>Your answers</h2>
+        <ol class="result-list">
+            <li th:each="q : ${attempt.orderedQuestions}">
+                <p class="prompt" th:text="${q.body}">question</p>
+                <p>
+                    Your answer: <strong th:text="${userAnswers.get(q.id)}">answer</strong><br>
+                    Correct answer: <strong th:text="${correctAnswers.get(q.id)}">answer</strong>
+                </p>
+                <p th:with="earned=${attempt.scores.get(q.id)}"
+                   th:class="${earned == q.maxScore} ? 'result-correct' : 'result-wrong'">
+                    <span th:if="${earned == q.maxScore}">+ </span><span th:text="${earned}">0</span> / <span th:text="${q.maxScore}">0</span>
+                </p>
+            </li>
+        </ol>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

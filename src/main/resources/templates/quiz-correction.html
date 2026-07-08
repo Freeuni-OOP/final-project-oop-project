@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Correction — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1 th:if="${attempt.lastCorrect}" class="result-correct">Correct!</h1>
+        <h1 th:unless="${attempt.lastCorrect}" class="result-wrong">Not quite.</h1>
+
+        <p class="prompt" th:text="${question.body}">question</p>
+        <p>Your answer: <strong th:text="${userAnswerText}">answer</strong></p>
+        <p>Correct answer: <strong th:text="${correctAnswerText}">answer</strong></p>
+    </section>
+
+    <form method="post" th:action="@{/quizzes/take(id=${quiz.id})}">
+        <input type="hidden" name="intent" value="advance">
+        <button type="submit"
+                th:text="${attempt.practice} ? (${attempt.finished} ? 'See practice results' : 'Next practice question') : (${attempt.currentIndex + 1 < attempt.total} ? 'Next question' : 'See results')">
+            Next
+        </button>
+    </form>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

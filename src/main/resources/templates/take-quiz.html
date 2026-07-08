@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Taking a quiz — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1 th:text="${quiz.name}">Quiz</h1>
+        <p th:if="${attempt.practice}" class="badge">Practice mode &mdash; score not recorded</p>
+        <p th:if="${attempt.practice}" class="muted">
+            Mastered <span th:text="${attempt.practiceMastered}">0</span> of <span th:text="${attempt.total}">0</span>
+            question(s). Remaining: <span th:text="${attempt.practiceRemaining}">0</span>.
+            A question leaves practice after <span th:text="${attempt.practiceCorrectTarget}">3</span> correct answers.
+        </p>
+        <p th:if="${!attempt.practice and quiz.multiPage}" class="muted">
+            Question <span th:text="${attempt.currentIndex + 1}">1</span> of <span th:text="${attempt.total}">1</span>
+        </p>
+        <p th:if="${attempt.practice}">
+            <a class="btn-link" th:href="@{/quizzes/view(id=${quiz.id})}">Leave practice</a>
+        </p>
+    </section>
+
+    <form method="post" th:action="@{/quizzes/take(id=${quiz.id})}" class="card-form">
+        <th:block th:with="base=${quiz.multiPage ? attempt.currentIndex : 0}">
+            <th:block th:each="q, stat : ${questionsToRender}">
+                <div th:replace="~{fragments/question :: render(${q}, ${base + stat.index + 1})}"></div>
+            </th:block>
+        </th:block>
+
+        <button type="submit"
+                th:text="${attempt.practice} ? 'Submit practice answer' : (${quiz.multiPage and (attempt.currentIndex + 1 < attempt.total)} ? 'Submit answer' : 'Submit quiz')">
+            Submit
+        </button>
+    </form>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
