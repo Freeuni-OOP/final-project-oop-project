@@ -6,22 +6,50 @@
 <main class="site-main">
 
     <h1>Add a question to: <span th:text="${quiz.name}">name</span></h1>
+    <p class="muted">Type: <strong th:text="${type}">TYPE</strong></p>
 
     <p th:if="${error}" class="error" th:text="${error}">error</p>
 
     <form method="post" th:action="@{/quizzes/add-question}" class="card-form">
         <input type="hidden" name="quizId" th:value="${quiz.id}">
+        <input type="hidden" name="type" th:value="${type}">
 
-        <label>Question text
+        <label th:if="${type == 'PICTURE_RESPONSE'}">Image URL
+            <input type="url" name="imageUrl" th:value="${imageUrl}"
+                   placeholder="https://example.com/image.jpg" required>
+        </label>
+
+        <label>
+            Question text
+            <span th:if="${type == 'FILL_BLANK'}" class="muted">(use <code>____</code> to mark the blank)</span>
             <textarea name="body" rows="3" required th:text="${body}"></textarea>
         </label>
 
-        <fieldset>
-            <legend>Choices &mdash; select the radio button next to the correct one</legend>
-            <div th:each="i : ${#numbers.sequence(0, choiceFields - 1)}" class="choice-row">
-                <input type="radio" name="correct" th:value="${i}" th:checked="${i == 0}">
+        <fieldset th:if="${type == 'MULTIPLE_CHOICE' or type == 'MULTI_SELECT'}">
+            <legend th:text="${type == 'MULTI_SELECT'} ? 'Choices - check every correct answer' : 'Choices - select the radio button next to the correct one'">
+                Choices
+            </legend>
+            <div th:each="i : ${#numbers.sequence(0, fieldsShown - 1)}" class="choice-row">
+                <input th:if="${type == 'MULTIPLE_CHOICE'}" type="radio" name="correct" th:value="${i}" th:checked="${i == 0}">
+                <input th:if="${type == 'MULTI_SELECT'}" type="checkbox" name="correct" th:value="${i}">
                 <input type="text" name="choice" th:placeholder="'Choice ' + (${i} + 1)">
             </div>
+        </fieldset>
+
+        <fieldset th:if="${type == 'MULTI_ANSWER'}">
+            <legend>Expected answers</legend>
+            <label class="checkbox">
+                <input type="checkbox" name="ordered">
+                Require answers in this order
+            </label>
+            <input th:each="i : ${#numbers.sequence(1, fieldsShown)}" type="text" name="answer"
+                   th:placeholder="'Expected answer ' + ${i}" th:required="${i <= 2}">
+        </fieldset>
+
+        <fieldset th:if="${type != 'MULTIPLE_CHOICE' and type != 'MULTI_SELECT' and type != 'MULTI_ANSWER'}">
+            <legend>Acceptable answers (any match earns the point)</legend>
+            <input th:each="i : ${#numbers.sequence(1, fieldsShown)}" type="text" name="answer"
+                   th:placeholder="'Acceptable answer ' + ${i}" th:required="${i == 1}">
         </fieldset>
 
         <button type="submit">Save question</button>
@@ -29,5 +57,6 @@
     </form>
 
 </main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

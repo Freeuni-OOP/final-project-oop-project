@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Renders one question's form fields. Inputs: q (Question), questionNumber (int) -->
+<div th:fragment="render(q, questionNumber)" class="question-block">
+    <h3>Question <span th:text="${questionNumber}">1</span></h3>
+
+    <img th:if="${q.imageUrl != null and !q.imageUrl.isEmpty()}" class="prompt-image"
+         th:src="${q.imageUrl}" alt="prompt">
+
+    <!-- Fill in the blank: split the body on the ____ marker -->
+    <p th:if="${q.type == 'FILL_BLANK'}" class="prompt">
+        <th:block th:with="parts=${#strings.arraySplit(q.body, '____')}">
+            <span th:text="${parts.length > 0 ? parts[0] : ''}"></span>
+            <input class="inline-input" type="text" th:name="'q_' + ${q.id}" required>
+            <span th:if="${parts.length > 1}" th:text="${parts[1]}"></span>
+        </th:block>
+    </p>
+
+    <!-- Multiple choice: radio buttons -->
+    <th:block th:if="${q.type == 'MULTIPLE_CHOICE'}">
+        <p class="prompt" th:text="${q.body}">Question text</p>
+        <label th:each="choice : ${q.answers}" class="radio">
+            <input type="radio" th:name="'q_' + ${q.id}" th:value="${choice.id}" required>
+            <span th:text="${choice.text}">choice</span>
+        </label>
+    </th:block>
+
+    <!-- Multi-select: checkbox choices -->
+    <th:block th:if="${q.type == 'MULTI_SELECT'}">
+        <p class="prompt" th:text="${q.body}">Question text</p>
+        <label th:each="choice : ${q.answers}" class="checkbox">
+            <input type="checkbox" th:name="'q_' + ${q.id}" th:value="${choice.id}">
+            <span th:text="${choice.text}">choice</span>
+        </label>
+    </th:block>
+
+    <!-- Multi-answer: one text box per expected answer -->
+    <th:block th:if="${q.type == 'MULTI_ANSWER'}">
+        <p class="prompt" th:text="${q.body}">Question text</p>
+        <input th:each="i : ${#numbers.sequence(1, q.maxScore)}"
+               type="text"
+               th:name="'q_' + ${q.id}"
+               th:placeholder="'Answer ' + ${i}"
+               required>
+    </th:block>
+
+    <!-- Question-response / picture-response: free text -->
+    <th:block th:if="${q.type == 'QUESTION_RESPONSE' or q.type == 'PICTURE_RESPONSE'}">
+        <p class="prompt" th:text="${q.body}">Question text</p>
+        <input type="text" th:name="'q_' + ${q.id}" required>
+    </th:block>
+</div>
+
+</body>
+</html>

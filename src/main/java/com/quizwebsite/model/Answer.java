@@ -14,8 +14,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * One answer choice belonging to a question. The correct flag marks
- * whether it is the right one.
+ * One row from the {@code answers} table.
+ *
+ * For text-input questions each Answer is an acceptable user response ({@code correct}
+ * is always true). For multi-answer questions, {@code position} can define the
+ * expected order. For choice-based questions each Answer is a displayed choice and
+ * {@code correct} flags whether picking it earns a point.
  */
 @Entity
 @Table(name = "answers")
@@ -36,7 +40,7 @@ public class Answer {
     private String text;
 
     @Column(name = "is_correct", nullable = false)
-    private boolean correct;
+    private boolean correct = true;
 
     @Column(name = "position", nullable = false)
     private int position;

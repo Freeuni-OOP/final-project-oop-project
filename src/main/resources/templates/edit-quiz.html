@@ -8,6 +8,52 @@
     <section>
         <h1>Edit quiz: <span th:text="${quiz.name}">name</span></h1>
         <p class="muted" th:text="${quiz.description != null and !quiz.description.isEmpty()} ? ${quiz.description} : 'No description'">desc</p>
+        <ul class="option-list">
+            <li th:if="${quiz.randomQuestions}">Random question order</li>
+            <li th:if="${quiz.multiPage}">One question per page</li>
+            <li th:if="${quiz.immediateCorrection}">Immediate correction</li>
+            <li th:if="${quiz.practiceEnabled}">Practice mode enabled</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Quiz details</h2>
+        <p th:if="${error}" class="error" th:text="${error}">error</p>
+        <form method="post" th:action="@{/quizzes/edit}" class="card-form">
+            <input type="hidden" name="id" th:value="${quiz.id}">
+            <label>Name
+                <input type="text" name="name" th:value="${quiz.name}" required maxlength="255">
+            </label>
+            <label>Description
+                <textarea name="description" rows="3" th:text="${quiz.description}"></textarea>
+            </label>
+            <label>Category
+                <input type="text" name="categoryName" th:value="${quiz.categoryName}">
+            </label>
+            <label>Tags
+                <input type="text" name="tagsText" th:value="${quiz.tagsText}">
+            </label>
+            <fieldset>
+                <legend>Options</legend>
+                <label class="checkbox">
+                    <input type="checkbox" name="randomQuestions" th:checked="${quiz.randomQuestions}">
+                    Random question order
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" name="multiPage" th:checked="${quiz.multiPage}">
+                    One question per page
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" name="immediateCorrection" th:checked="${quiz.immediateCorrection}">
+                    Immediate correction
+                </label>
+                <label class="checkbox">
+                    <input type="checkbox" name="practiceEnabled" th:checked="${quiz.practiceEnabled}">
+                    Practice mode enabled
+                </label>
+            </fieldset>
+            <button type="submit">Save quiz details</button>
+        </form>
     </section>
 
     <section>
@@ -15,20 +61,58 @@
         <p th:if="${#lists.isEmpty(quiz.questions)}" class="muted">No questions yet — add your first below.</p>
         <ol th:unless="${#lists.isEmpty(quiz.questions)}" class="question-list">
             <li th:each="q : ${quiz.questions}">
+                <strong>[<span th:text="${q.type}">TYPE</span>]</strong>
                 <span th:text="${q.body}">body</span>
+                <div th:if="${q.imageUrl != null and !q.imageUrl.isEmpty()}">
+                    <img th:src="${q.imageUrl}" alt="prompt" style="max-height:120px">
+                </div>
                 <ul class="answer-list">
                     <li th:each="a : ${q.answers}">
                         <span th:text="${a.text}">answer</span>
                         <span th:if="${a.correct}" class="badge">correct</span>
                     </li>
                 </ul>
+                <form method="post" th:action="@{/quizzes/question-action}" style="display:inline">
+                    <input type="hidden" name="quizId" th:value="${quiz.id}">
+                    <input type="hidden" name="questionId" th:value="${q.id}">
+                    <button type="submit" name="intent" value="up" class="btn-link">Move up</button>
+                    <button type="submit" name="intent" value="down" class="btn-link">Move down</button>
+                    <button type="submit" name="intent" value="delete" class="btn-link">Delete</button>
+                </form>
             </li>
         </ol>
     </section>
 
     <section>
         <h2>Add a question</h2>
-        <a class="btn-primary" th:href="@{/quizzes/add-question(quizId=${quiz.id})}">Add a multiple-choice question</a>
+        <form method="get" th:action="@{/quizzes/add-question}">
+            <input type="hidden" name="quizId" th:value="${quiz.id}">
+            <label class="radio">
+                <input type="radio" name="type" value="QUESTION_RESPONSE" checked>
+                Question-Response (free-text answer)
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" value="FILL_BLANK">
+                Fill in the Blank
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" value="MULTIPLE_CHOICE">
+                Multiple Choice (radio buttons)
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" value="PICTURE_RESPONSE">
+                Picture-Response (image prompt, text answer)
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" value="MULTI_ANSWER">
+                Multi-Answer (several text answers)
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" value="MULTI_SELECT">
+                Multi-Select (checkbox choices)
+            </label>
+            <button type="submit">Add this kind of question</button>
+        </form>
     </section>
 
     <section>
@@ -37,5 +121,6 @@
     </section>
 
 </main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

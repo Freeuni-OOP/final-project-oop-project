@@ -18,10 +18,53 @@
             <textarea name="description" rows="4" th:text="${description}"></textarea>
         </label>
 
+        <label>Category
+            <input type="text" name="categoryName" th:value="${categoryName}" placeholder="History, Science, Java">
+        </label>
+
+        <label>Tags
+            <input type="text" name="tagsText" th:value="${tagsText}" placeholder="comma, separated, tags">
+        </label>
+
+        <fieldset>
+            <legend>Options</legend>
+
+            <label class="checkbox">
+                <input type="checkbox" name="randomQuestions">
+                Randomize question order each time the quiz is taken
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="multiPage">
+                One question per page (otherwise all questions on a single page)
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="immediateCorrection">
+                Show correctness immediately after each answer (only with one-per-page)
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="practiceEnabled">
+                Allow practice mode (scores not recorded)
+            </label>
+        </fieldset>
+
         <button type="submit">Create and add questions</button>
         <a th:href="@{/home}" class="btn-link">Cancel</a>
     </form>
 
+    <section>
+        <h2>Import XML</h2>
+        <form method="post" th:action="@{/quizzes/import-xml}" enctype="multipart/form-data" class="card-form">
+            <label>Quiz XML file
+                <input type="file" name="file" accept=".xml,text/xml" required>
+            </label>
+            <button type="submit">Import quiz</button>
+        </form>
+    </section>
+
 </main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
