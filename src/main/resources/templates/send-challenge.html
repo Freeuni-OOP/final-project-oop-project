@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Challenge a friend — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Challenge a friend</h1>
+        <p>Send a challenge to take: <strong th:text="${quiz.name}">quiz</strong></p>
+
+        <p th:if="${#lists.isEmpty(friends)}" class="muted">
+            You don't have any friends yet. <a th:href="@{/users/lookup}">Find some</a>.
+        </p>
+        <form th:unless="${#lists.isEmpty(friends)}" method="post" th:action="@{/messages/challenge}" class="card-form">
+            <input type="hidden" name="quizId" th:value="${quiz.id}">
+            <label>
+                Friend
+                <select name="to" required>
+                    <option th:each="f : ${friends}" th:value="${f.id}" th:text="${f.username}">friend</option>
+                </select>
+            </label>
+            <button type="submit">Send challenge</button>
+            <a class="btn-link" th:href="@{/quizzes/view(id=${quiz.id})}">Cancel</a>
+        </form>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

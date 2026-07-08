@@ -8,17 +8,161 @@
     <section>
         <h1 th:text="${quiz.name}">Quiz</h1>
         <p class="muted">
-            by <span th:text="${quiz.creatorUsername}">creator</span>
+            by <a th:href="@{/users/view(id=${quiz.creatorId})}" th:text="${quiz.creatorUsername}">creator</a>
             &middot; <span th:text="${quiz.questions.size()}">0</span> question(s)
+            &middot; <span th:text="${attemptCount}">0</span> attempt(s)
+            &middot; <span th:text="${favoriteCount}">0</span> save(s)
+            &middot; avg rating <span th:text="${#numbers.formatDecimal(averageRating, 1, 1)}">0.0</span>/5
+        </p>
+        <p class="muted">
+            <span th:text="${quiz.categoryName == null ? 'Uncategorized' : quiz.categoryName}">Category</span>
+            <span th:if="${quiz.tagsText != null and !quiz.tagsText.isEmpty()}">
+                &middot; tags: <span th:text="${quiz.tagsText}">tags</span>
+            </span>
         </p>
         <p th:if="${quiz.description != null and !quiz.description.isEmpty()}" th:text="${quiz.description}">desc</p>
     </section>
 
     <section>
+        <h2>Take this quiz</h2>
         <p th:if="${#lists.isEmpty(quiz.questions)}" class="muted">This quiz doesn't have any questions yet.</p>
+        <th:block th:unless="${#lists.isEmpty(quiz.questions)}">
+            <a class="btn-primary" th:href="@{/quizzes/take(id=${quiz.id})}">Start the quiz</a>
+            <a th:if="${quiz.practiceEnabled}" class="btn-link" th:href="@{/quizzes/take(id=${quiz.id},practice=1)}">Practice mode</a>
+            <a class="btn-link" th:href="@{/messages/challenge(quizId=${quiz.id})}">Challenge a friend</a>
+        </th:block>
+        <form method="post" th:action="@{/quizzes/favorite}" style="display:inline">
+            <input type="hidden" name="id" th:value="${quiz.id}">
+            <input type="hidden" name="saved" th:value="${!favorite}">
+            <button type="submit" class="btn-link" th:text="${favorite ? 'Unsave quiz' : 'Save quiz'}">Save quiz</button>
+        </form>
         <a th:if="${isOwner}" class="btn-link" th:href="@{/quizzes/edit(id=${quiz.id})}">Continue editing (add questions)</a>
     </section>
 
+    <section>
+        <h2>Ratings and reviews</h2>
+        <form method="post" th:action="@{/quizzes/rating}" class="card-form">
+            <input type="hidden" name="id" th:value="${quiz.id}">
+            <label>Rating
+                <input type="number" name="rating" min="1" max="5" value="5" required>
+            </label>
+            <label>Review
+                <input type="text" name="review" maxlength="500" placeholder="Optional short review">
+            </label>
+            <button type="submit">Submit rating</button>
+        </form>
+        <p th:if="${#lists.isEmpty(ratings)}" class="muted">No ratings yet.</p>
+        <ul th:unless="${#lists.isEmpty(ratings)}">
+            <li th:each="r : ${ratings}">
+                <strong><span th:text="${r.rating}">5</span>/5</strong>
+                by <span th:text="${r.reviewerUsername}">user</span>
+                <span th:if="${r.review != null and !r.review.isEmpty()}">- <span th:text="${r.review}">review</span></span>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Report this quiz</h2>
+        <form method="post" th:action="@{/quizzes/report}" class="card-form">
+            <input type="hidden" name="id" th:value="${quiz.id}">
+            <label>Reason
+                <input type="text" name="reason" maxlength="500" required>
+            </label>
+            <button type="submit" class="btn-link">Send report to admins</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Your past performance</h2>
+        <p th:if="${#lists.isEmpty(myAttempts)}" class="muted">You haven't taken this quiz yet.</p>
+        <table th:unless="${#lists.isEmpty(myAttempts)}" class="data-table">
+            <thead><tr><th>When</th><th>Score</th><th>Time</th></tr></thead>
+            <tbody>
+            <tr th:each="h : ${myAttempts}">
+                <td th:text="${h.takenAt}">when</td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.timeTakenFormatted}">0s</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Overall quiz statistics</h2>
+        <p th:if="${quizStats.empty}" class="muted">No recorded attempts yet.</p>
+        <table th:unless="${quizStats.empty}" class="data-table">
+            <tbody>
+            <tr><th>Recorded attempts</th><td th:text="${quizStats.attemptCount}">0</td></tr>
+            <tr><th>Average score</th>
+                <td><span th:text="${#numbers.formatDecimal(quizStats.averageScore, 1, 1)}">0.0</span> points</td></tr>
+            <tr><th>Average percent</th>
+                <td><span th:text="${#numbers.formatDecimal(quizStats.averagePercent, 1, 1)}">0.0</span>%</td></tr>
+            <tr><th>Average time</th><td th:text="${quizStats.averageTimeFormatted}">0s</td></tr>
+            <tr><th>Best score</th><td th:text="${quizStats.bestScore}">0</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>All-time top scorers</h2>
+        <p th:if="${#lists.isEmpty(topAllTime)}" class="muted">No attempts yet.</p>
+        <table th:unless="${#lists.isEmpty(topAllTime)}" class="data-table">
+            <thead><tr><th>#</th><th>User</th><th>Score</th><th>Time</th><th>When</th></tr></thead>
+            <tbody>
+            <tr th:each="h, stat : ${topAllTime}">
+                <td th:text="${stat.index + 1}">1</td>
+                <td>
+                    <a th:if="${h.identityVisible}" th:href="@{/users/view(id=${h.userId})}" th:text="${h.username}">user</a>
+                    <span th:unless="${h.identityVisible}" th:text="${h.username}">anonymous</span>
+                </td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.timeTakenFormatted}">0s</td>
+                <td th:text="${h.takenAt}">when</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Top scorers in the last day</h2>
+        <p th:if="${#lists.isEmpty(topLastDay)}" class="muted">No attempts in the last 24 hours.</p>
+        <table th:unless="${#lists.isEmpty(topLastDay)}" class="data-table">
+            <thead><tr><th>#</th><th>User</th><th>Score</th><th>Time</th><th>When</th></tr></thead>
+            <tbody>
+            <tr th:each="h, stat : ${topLastDay}">
+                <td th:text="${stat.index + 1}">1</td>
+                <td>
+                    <a th:if="${h.identityVisible}" th:href="@{/users/view(id=${h.userId})}" th:text="${h.username}">user</a>
+                    <span th:unless="${h.identityVisible}" th:text="${h.username}">anonymous</span>
+                </td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.timeTakenFormatted}">0s</td>
+                <td th:text="${h.takenAt}">when</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Recent attempts</h2>
+        <p th:if="${#lists.isEmpty(recentAttempts)}" class="muted">No attempts yet.</p>
+        <table th:unless="${#lists.isEmpty(recentAttempts)}" class="data-table">
+            <thead><tr><th>User</th><th>Score</th><th>Time</th><th>When</th></tr></thead>
+            <tbody>
+            <tr th:each="h : ${recentAttempts}">
+                <td>
+                    <a th:if="${h.identityVisible}" th:href="@{/users/view(id=${h.userId})}" th:text="${h.username}">user</a>
+                    <span th:unless="${h.identityVisible}" th:text="${h.username}">anonymous</span>
+                </td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.timeTakenFormatted}">0s</td>
+                <td th:text="${h.takenAt}">when</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
 </main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

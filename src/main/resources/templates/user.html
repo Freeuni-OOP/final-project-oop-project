@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('User — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1 th:text="${profile.displayName}">user</h1>
+        <p class="muted">@<span th:text="${profile.username}">username</span></p>
+        <span th:if="${profile.admin}" class="badge">admin</span>
+        <p th:if="${profile.bio != null and !profile.bio.isEmpty()}" th:text="${profile.bio}">bio</p>
+
+        <form th:if="${isSelf}" method="post" th:action="@{/users/profile}" class="card-form">
+            <label>Display name
+                <input type="text" name="displayName" th:value="${profile.displayName}" maxlength="80">
+            </label>
+            <label>Bio
+                <textarea name="bio" rows="3" maxlength="1000" th:text="${profile.bio}"></textarea>
+            </label>
+            <label>History privacy
+                <select name="privacySetting">
+                    <option th:each="setting : ${privacySettings}"
+                            th:value="${setting}"
+                            th:selected="${setting == profile.privacySetting}"
+                            th:text="${setting}">PUBLIC</option>
+                </select>
+            </label>
+            <button type="submit">Update profile</button>
+        </form>
+
+        <th:block th:switch="${friendStatus}">
+            <p th:case="'SELF'" class="muted">This is you.</p>
+
+            <p th:case="'FRIENDS'">You are friends.
+                <form method="post" th:action="@{/friends/action}" style="display:inline">
+                    <input type="hidden" name="intent" value="remove">
+                    <input type="hidden" name="otherId" th:value="${profile.id}">
+                    <button type="submit" class="btn-link">Remove friend</button>
+                </form>
+            </p>
+
+            <p th:case="'REQUEST_SENT'" class="muted">Friend request pending.</p>
+
+            <th:block th:case="'REQUEST_RECEIVED'">
+                <p>They've sent you a friend request.</p>
+                <form method="post" th:action="@{/friends/action}" style="display:inline">
+                    <input type="hidden" name="intent" value="accept">
+                    <input type="hidden" name="otherId" th:value="${profile.id}">
+                    <button type="submit">Accept</button>
+                </form>
+                <form method="post" th:action="@{/friends/action}" style="display:inline">
+                    <input type="hidden" name="intent" value="decline">
+                    <input type="hidden" name="otherId" th:value="${profile.id}">
+                    <button type="submit" class="btn-link">Decline</button>
+                </form>
+            </th:block>
+
+            <form th:case="*" method="post" th:action="@{/friends/action}">
+                <input type="hidden" name="intent" value="request">
+                <input type="hidden" name="otherId" th:value="${profile.id}">
+                <button type="submit">Add as friend</button>
+            </form>
+        </th:block>
+
+        <p th:unless="${isSelf}">
+            <a class="btn-link" th:href="@{/messages/send(to=${profile.id})}">Send a note</a>
+        </p>
+    </section>
+
+    <section>
+        <h2>Quizzes by <span th:text="${profile.username}">user</span></h2>
+        <p th:if="${#lists.isEmpty(theirQuizzes)}" class="muted">No quizzes yet.</p>
+        <ul th:unless="${#lists.isEmpty(theirQuizzes)}">
+            <li th:each="q : ${theirQuizzes}">
+                <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Achievements</h2>
+        <div th:replace="~{fragments/achievements :: badges(${theirAchievements}, null)}"></div>
+    </section>
+
+    <section>
+        <h2>Recent quiz activity</h2>
+        <p th:if="${!canViewHistory}" class="muted">This user's quiz history is private.</p>
+        <p th:if="${canViewHistory and #lists.isEmpty(theirHistory)}" class="muted">No quizzes taken yet.</p>
+        <table th:if="${canViewHistory and !#lists.isEmpty(theirHistory)}" class="data-table">
+            <thead><tr><th>Quiz</th><th>Score</th><th>Time</th><th>When</th></tr></thead>
+            <tbody>
+            <tr th:each="h : ${theirHistory}">
+                <td><a th:href="@{/quizzes/view(id=${h.quizId})}" th:text="${h.quizName}">quiz</a></td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.timeTakenFormatted}">0s</td>
+                <td th:text="${h.takenAt}">when</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

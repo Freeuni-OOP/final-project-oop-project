@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Quizzes admin — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Quizzes</h1>
+        <p class="muted"><a th:href="@{/admin}">&larr; Admin dashboard</a></p>
+    </section>
+
+    <section>
+        <p th:if="${#lists.isEmpty(quizzes)}" class="muted">No quizzes yet.</p>
+        <table th:unless="${#lists.isEmpty(quizzes)}" class="data-table">
+            <thead>
+                <tr><th>Name</th><th>Creator</th><th>Created</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="q : ${quizzes}">
+                <td><a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a></td>
+                <td th:text="${q.creatorUsername}">creator</td>
+                <td th:text="${q.createdAt}">when</td>
+                <td>
+                    <form method="post" th:action="@{/admin/quizzes}" style="display:inline"
+                          onsubmit="return confirm('Clear all history for this quiz?');">
+                        <input type="hidden" name="intent" value="clearHistory">
+                        <input type="hidden" name="quizId" th:value="${q.id}">
+                        <button type="submit" class="btn-link">clear history</button>
+                    </form>
+                    <form method="post" th:action="@{/admin/quizzes}" style="display:inline"
+                          onsubmit="return confirm('Delete this quiz? This removes its questions, answers, and history.');">
+                        <input type="hidden" name="intent" value="remove">
+                        <input type="hidden" name="quizId" th:value="${q.id}">
+                        <button type="submit" class="btn-link">remove</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

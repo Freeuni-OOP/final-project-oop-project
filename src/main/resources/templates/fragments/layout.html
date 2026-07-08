@@ -13,11 +13,20 @@
         <a th:href="@{/home}">Home</a>
         <a th:href="@{/quizzes}">Browse quizzes</a>
         <a th:href="@{/quizzes/new}">Create quiz</a>
+        <a th:href="@{/friends}">Friends</a>
+        <a th:href="@{/messages}">Inbox<span th:if="${nav_unreadMessages > 0}" class="badge" th:text="${nav_unreadMessages}">0</span></a>
+        <a th:if="${session.user != null and session.user.admin}" th:href="@{/admin}">Admin</a>
     </nav>
     <div class="user-box" th:if="${session.user != null}">
         <span>Hi, <span th:text="${session.user.username}">user</span></span>
+        <span th:if="${session.user.admin}" class="badge">admin</span>
         <a th:href="@{/logout}">Log out</a>
     </div>
 </header>
+
+<footer th:fragment="footer" class="site-footer">
+    <small>CS108 Quiz Website &mdash; group project</small>
+</footer>
+
 </body>
 </html>

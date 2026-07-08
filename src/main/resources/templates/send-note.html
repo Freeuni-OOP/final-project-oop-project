@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Send a note — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Send a note to <span th:text="${recipient.username}">user</span></h1>
+
+        <form method="post" th:action="@{/messages/send}" class="card-form">
+            <input type="hidden" name="to" th:value="${recipient.id}">
+            <label>
+                Message
+                <textarea name="body" rows="5" required autofocus></textarea>
+            </label>
+            <button type="submit">Send note</button>
+            <a class="btn-link" th:href="@{/users/view(id=${recipient.id})}">Cancel</a>
+        </form>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

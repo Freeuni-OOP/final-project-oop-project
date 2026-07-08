@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Announcements admin — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Announcements</h1>
+        <p class="muted"><a th:href="@{/admin}">&larr; Admin dashboard</a></p>
+    </section>
+
+    <section>
+        <h2>Post a new announcement</h2>
+        <form method="post" th:action="@{/admin/announcements}" class="card-form">
+            <input type="hidden" name="intent" value="create">
+            <label>
+                Body
+                <textarea name="body" rows="4" required></textarea>
+            </label>
+            <button type="submit">Post announcement</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>All announcements</h2>
+        <p th:if="${#lists.isEmpty(announcements)}" class="muted">No announcements yet.</p>
+        <ul th:unless="${#lists.isEmpty(announcements)}">
+            <li th:each="a : ${announcements}">
+                <p>
+                    <strong th:text="${a.adminUsername}">admin</strong>
+                    <span class="muted">— <span th:text="${a.createdAt}">when</span></span>
+                </p>
+                <p th:text="${a.body}">body</p>
+                <form method="post" th:action="@{/admin/announcements}" style="display:inline">
+                    <input type="hidden" name="intent" value="delete">
+                    <input type="hidden" name="id" th:value="${a.id}">
+                    <button type="submit" class="btn-link">delete</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

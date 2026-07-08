@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Admin dashboard</h1>
+        <p class="muted">Site-wide management. Only visible to admin accounts.</p>
+    </section>
+
+    <section>
+        <h2>Site statistics</h2>
+        <table class="data-table">
+            <tbody>
+            <tr><th>Total users</th><td th:text="${userCount}">0</td></tr>
+            <tr><th>Total quizzes</th><td th:text="${quizCount}">0</td></tr>
+            <tr><th>Total quiz attempts</th><td th:text="${attemptCount}">0</td></tr>
+            <tr><th>Open quiz reports</th><td th:text="${openReportCount}">0</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Manage</h2>
+        <ul>
+            <li><a th:href="@{/admin/announcements}">Announcements</a></li>
+            <li><a th:href="@{/admin/users}">Users</a> (remove or promote)</li>
+            <li><a th:href="@{/admin/quizzes}">Quizzes</a> (remove or clear history)</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Open quiz reports</h2>
+        <p th:if="${#lists.isEmpty(openReports)}" class="muted">No open reports.</p>
+        <table th:unless="${#lists.isEmpty(openReports)}" class="data-table">
+            <thead><tr><th>Quiz</th><th>Reporter</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+            <tr th:each="r : ${openReports}">
+                <td><a th:href="@{/quizzes/view(id=${r.quizId})}" th:text="${r.quizName}">quiz</a></td>
+                <td th:text="${r.reporterUsername}">reporter</td>
+                <td th:text="${r.reason}">reason</td>
+                <td th:text="${r.status}">OPEN</td>
+                <td>
+                    <form method="post" th:action="@{/admin/reports}">
+                        <input type="hidden" name="reportId" th:value="${r.id}">
+                        <select name="status">
+                            <option th:each="status : ${reportStatuses}"
+                                    th:value="${status}"
+                                    th:text="${status}">RESOLVED</option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Recent announcements</h2>
+        <p th:if="${#lists.isEmpty(recentAnnouncements)}" class="muted">
+            No announcements yet. <a th:href="@{/admin/announcements}">Post one</a>.
+        </p>
+        <ul th:unless="${#lists.isEmpty(recentAnnouncements)}">
+            <li th:each="a : ${recentAnnouncements}">
+                <strong th:text="${a.adminUsername}">admin</strong>
+                <span class="muted">— <span th:text="${a.createdAt}">when</span></span>
+                <p th:text="${a.body}">body</p>
+            </li>
+        </ul>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

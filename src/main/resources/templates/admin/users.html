@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Users admin — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Users</h1>
+        <p class="muted"><a th:href="@{/admin}">&larr; Admin dashboard</a></p>
+    </section>
+
+    <section>
+        <table class="data-table">
+            <thead>
+                <tr><th>Username</th><th>Admin</th><th>Created</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td><a th:href="@{/users/view(id=${u.id})}" th:text="${u.username}">user</a></td>
+                <td><span th:if="${u.admin}" class="badge">admin</span></td>
+                <td th:text="${u.createdAt}">when</td>
+                <td>
+                    <form th:if="${!u.admin}" method="post" th:action="@{/admin/users}" style="display:inline">
+                        <input type="hidden" name="intent" value="promote">
+                        <input type="hidden" name="userId" th:value="${u.id}">
+                        <button type="submit" class="btn-link">promote to admin</button>
+                    </form>
+                    <form th:if="${u.id != session.user.id}" method="post" th:action="@{/admin/users}" style="display:inline"
+                          onsubmit="return confirm('Delete this user? This also deletes their quizzes, history, and messages.');">
+                        <input type="hidden" name="intent" value="remove">
+                        <input type="hidden" name="userId" th:value="${u.id}">
+                        <button type="submit" class="btn-link">remove</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

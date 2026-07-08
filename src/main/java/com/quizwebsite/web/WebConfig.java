@@ -5,16 +5,19 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Registers the auth interceptor: every request needs a logged-in user except
- * the public auth pages and static assets.
+ * Registers the auth / admin interceptors, mirroring the old servlet filters:
+ *   AuthFilter  → AuthInterceptor on everything except the public auth pages + static assets
+ *   AdminFilter → AdminInterceptor on /admin/**
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
+    private final AdminInterceptor adminInterceptor;
 
-    public WebConfig(AuthInterceptor authInterceptor) {
+    public WebConfig(AuthInterceptor authInterceptor, AdminInterceptor adminInterceptor) {
         this.authInterceptor = authInterceptor;
+        this.adminInterceptor = adminInterceptor;
     }
 
     @Override
@@ -24,5 +27,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/login", "/register", "/logout",
                         "/css/**", "/js/**", "/images/**", "/favicon.ico", "/error");
+
+        registry.addInterceptor(adminInterceptor)
+                .addPathPatterns("/admin/**");
     }
 }

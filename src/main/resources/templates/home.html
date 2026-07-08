@@ -5,14 +5,159 @@
 <header th:replace="~{fragments/layout :: header}"></header>
 <main class="site-main">
 
-    <h1>Welcome, <span th:text="${session.user.username}">user</span></h1>
+    <h1>Welcome, <span th:text="${session.user.displayName}">user</span></h1>
 
     <section>
-        <p class="muted">
-            Dashboard elements will be added later
+        <h2>Quick actions</h2>
+        <p>
+            <a class="btn-primary" th:href="@{/quizzes/new}">Create a quiz</a>
+            <a class="btn-link" th:href="@{/quizzes}">Browse quizzes</a>
         </p>
     </section>
 
+    <section>
+        <h2>Announcements</h2>
+        <p th:if="${#lists.isEmpty(announcements)}" class="muted">No announcements yet.</p>
+        <ul th:unless="${#lists.isEmpty(announcements)}">
+            <li th:each="a : ${announcements}">
+                <p>
+                    <strong th:text="${a.adminUsername}">admin</strong>
+                    <span class="muted">— <span th:text="${a.createdAt}">when</span></span>
+                </p>
+                <p th:text="${a.body}">body</p>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Popular quizzes</h2>
+        <p th:if="${#lists.isEmpty(popularQuizzes)}" class="muted">No quiz attempts yet.</p>
+        <ul th:unless="${#lists.isEmpty(popularQuizzes)}">
+            <li th:each="q : ${popularQuizzes}">
+                <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
+                <span class="muted">by
+                    <a th:href="@{/users/view(id=${q.creatorId})}" th:text="${q.creatorUsername}">creator</a>
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Recently created quizzes</h2>
+        <p th:if="${#lists.isEmpty(recentQuizzes)}" class="muted">No quizzes yet.</p>
+        <ul th:unless="${#lists.isEmpty(recentQuizzes)}">
+            <li th:each="q : ${recentQuizzes}">
+                <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
+                <span class="muted">by
+                    <a th:href="@{/users/view(id=${q.creatorId})}" th:text="${q.creatorUsername}">creator</a>
+                </span>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Your recent quiz activity</h2>
+        <p th:if="${#lists.isEmpty(myRecentAttempts)}" class="muted">
+            You haven't taken any quizzes yet. <a th:href="@{/quizzes}">Find one to try</a>.
+        </p>
+        <table th:unless="${#lists.isEmpty(myRecentAttempts)}" class="data-table">
+            <thead><tr><th>Quiz</th><th>Score</th><th>Time</th><th>When</th></tr></thead>
+            <tbody>
+            <tr th:each="h : ${myRecentAttempts}">
+                <td><a th:href="@{/quizzes/view(id=${h.quizId})}" th:text="${h.quizName}">quiz</a></td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.timeTakenFormatted}">0s</td>
+                <td th:text="${h.takenAt}">when</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section th:unless="${#lists.isEmpty(myRecentQuizzes)}">
+        <h2>Quizzes you've created</h2>
+        <ul>
+            <li th:each="q : ${myRecentQuizzes}">
+                <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Saved quizzes</h2>
+        <p th:if="${#lists.isEmpty(savedQuizzes)}" class="muted">Save useful quizzes from their summary page.</p>
+        <ul th:unless="${#lists.isEmpty(savedQuizzes)}">
+            <li th:each="q : ${savedQuizzes}">
+                <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
+                <span class="muted">by <span th:text="${q.creatorUsername}">creator</span></span>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Your achievements</h2>
+        <div th:replace="~{fragments/achievements :: badges(${myAchievements}, 'You have not earned any achievements yet - try creating or taking a quiz.')}"></div>
+    </section>
+
+    <section>
+        <h2>Messages</h2>
+        <p th:if="${#lists.isEmpty(recentMessages)}" class="muted">No messages.</p>
+        <th:block th:unless="${#lists.isEmpty(recentMessages)}">
+            <ul>
+                <li th:each="m : ${recentMessages}">
+                    <strong th:switch="${m.type}">
+                        <span th:case="'FRIEND_REQUEST'">Friend request</span>
+                        <span th:case="'CHALLENGE'">Challenge</span>
+                        <span th:case="*">Note</span>
+                    </strong>
+                    from
+                    <a th:href="@{/users/view(id=${m.fromUserId})}" th:text="${m.fromUsername}">user</a>
+                    <span th:if="${!m.read}" class="badge">new</span>
+                </li>
+            </ul>
+            <p><a th:href="@{/messages}">Open inbox</a></p>
+        </th:block>
+    </section>
+
+    <section>
+        <h2>Friend activity</h2>
+        <p th:if="${#lists.isEmpty(friendRecentAttempts) and #lists.isEmpty(friendRecentQuizzes) and #lists.isEmpty(friendRecentAchievements)}"
+           class="muted">No friend activity yet.</p>
+
+        <h3 th:unless="${#lists.isEmpty(friendRecentAttempts)}">Recent quiz attempts</h3>
+        <table th:unless="${#lists.isEmpty(friendRecentAttempts)}" class="data-table">
+            <thead><tr><th>Friend</th><th>Quiz</th><th>Score</th><th>When</th></tr></thead>
+            <tbody>
+            <tr th:each="h : ${friendRecentAttempts}">
+                <td><a th:href="@{/users/view(id=${h.userId})}" th:text="${h.username}">friend</a></td>
+                <td><a th:href="@{/quizzes/view(id=${h.quizId})}" th:text="${h.quizName}">quiz</a></td>
+                <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
+                <td th:text="${h.takenAt}">when</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3 th:unless="${#lists.isEmpty(friendRecentQuizzes)}">Recently created quizzes</h3>
+        <ul th:unless="${#lists.isEmpty(friendRecentQuizzes)}">
+            <li th:each="q : ${friendRecentQuizzes}">
+                <a th:href="@{/users/view(id=${q.creatorId})}" th:text="${q.creatorUsername}">friend</a>
+                created
+                <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
+                <span class="muted">&middot; <span th:text="${q.createdAt}">when</span></span>
+            </li>
+        </ul>
+
+        <h3 th:unless="${#lists.isEmpty(friendRecentAchievements)}">Recent achievements</h3>
+        <ul th:unless="${#lists.isEmpty(friendRecentAchievements)}">
+            <li th:each="ach : ${friendRecentAchievements}">
+                <a th:href="@{/users/view(id=${ach.userId})}" th:text="${ach.username}">friend</a>
+                earned
+                <strong th:text="${ach.kindEnum != null ? ach.kindEnum.displayName : ach.kind}">achievement</strong>
+                <span class="muted">&middot; <span th:text="${ach.awardedAt}">when</span></span>
+            </li>
+        </ul>
+    </section>
+
 </main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

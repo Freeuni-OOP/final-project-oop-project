@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Inbox — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Inbox</h1>
+
+        <p th:if="${#lists.isEmpty(inbox)}" class="muted">No messages.</p>
+        <ul th:unless="${#lists.isEmpty(inbox)}" class="inbox">
+            <li th:each="m : ${inbox}" th:classappend="${m.read} ? 'read' : 'unread'">
+                <p class="meta">
+                    <strong th:switch="${m.type}">
+                        <span th:case="'FRIEND_REQUEST'">Friend request</span>
+                        <span th:case="'CHALLENGE'">Quiz challenge</span>
+                        <span th:case="*">Note</span>
+                    </strong>
+                    from
+                    <a th:href="@{/users/view(id=${m.fromUserId})}" th:text="${m.fromUsername}">user</a>
+                    <span class="muted">&middot; <span th:text="${m.createdAt}">when</span></span>
+                </p>
+
+                <!-- Friend request -->
+                <th:block th:if="${m.type == 'FRIEND_REQUEST'}">
+                    <p><span th:text="${m.fromUsername}">user</span> wants to be your friend.</p>
+                    <form method="post" th:action="@{/friends/action}" style="display:inline">
+                        <input type="hidden" name="intent" value="accept">
+                        <input type="hidden" name="otherId" th:value="${m.fromUserId}">
+                        <input type="hidden" name="returnTo" value="/messages">
+                        <button type="submit">Accept</button>
+                    </form>
+                    <form method="post" th:action="@{/friends/action}" style="display:inline">
+                        <input type="hidden" name="intent" value="decline">
+                        <input type="hidden" name="otherId" th:value="${m.fromUserId}">
+                        <input type="hidden" name="returnTo" value="/messages">
+                        <button type="submit" class="btn-link">Decline</button>
+                    </form>
+                </th:block>
+
+                <!-- Challenge -->
+                <th:block th:if="${m.type == 'CHALLENGE'}">
+                    <p>
+                        Challenged you to take
+                        <a th:if="${m.quizName != null}" th:href="@{/quizzes/view(id=${m.quizId})}" th:text="${m.quizName}">quiz</a>
+                        <span th:unless="${m.quizName != null}" class="muted">(quiz deleted)</span>
+                        <span th:if="${m.challengerBestScore != null}">
+                            &mdash; their best: <strong><span th:text="${m.challengerBestScore}">0</span> / <span th:text="${m.challengerBestMax}">0</span></strong>
+                        </span>
+                    </p>
+                    <a th:if="${m.quizId != null and m.quizName != null}" class="btn-primary"
+                       th:href="@{/quizzes/take(id=${m.quizId})}">Take the quiz</a>
+                </th:block>
+
+                <!-- Note -->
+                <p th:if="${m.type == 'NOTE'}" th:text="${m.body}">note</p>
+
+                <form method="post" th:action="@{/messages}" style="display:inline">
+                    <input type="hidden" name="intent" value="delete">
+                    <input type="hidden" name="messageId" th:value="${m.id}">
+                    <button type="submit" class="btn-link">Delete</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

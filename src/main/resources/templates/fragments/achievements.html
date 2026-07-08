@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Renders a row of badge cards. -->
+<div th:fragment="badges(achievements, emptyMessage)">
+    <p th:if="${#lists.isEmpty(achievements)}" class="muted"
+       th:text="${emptyMessage} ?: 'No achievements yet.'">No achievements yet.</p>
+
+    <ul th:unless="${#lists.isEmpty(achievements)}" class="achievement-grid">
+        <li th:each="ach : ${achievements}" class="achievement-badge"
+            th:title="${ach.kindEnum != null ? ach.kindEnum.description : ach.kind}">
+            <span class="achievement-name"
+                  th:text="${ach.kindEnum != null ? ach.kindEnum.displayName : ach.kind}">Badge</span>
+            <span class="achievement-desc"
+                  th:text="${ach.kindEnum != null ? ach.kindEnum.description : ''}"></span>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

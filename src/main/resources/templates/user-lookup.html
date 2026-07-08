@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Find users — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Find users</h1>
+        <form method="get" th:action="@{/users/lookup}" class="card-form">
+            <label>
+                Search for a username
+                <input type="text" name="q" th:value="${query}" autofocus>
+            </label>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <section th:if="${query != null and !query.isEmpty()}">
+        <h2>Results</h2>
+        <p th:if="${#lists.isEmpty(results)}" class="muted">
+            No users match "<span th:text="${query}">q</span>".
+        </p>
+        <ul th:unless="${#lists.isEmpty(results)}">
+            <li th:each="u : ${results}">
+                <a th:href="@{/users/view(id=${u.id})}" th:text="${u.username}">user</a>
+                <span th:if="${u.admin}" class="badge">admin</span>
+            </li>
+        </ul>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

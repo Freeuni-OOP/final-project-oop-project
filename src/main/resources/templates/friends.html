@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Your friends — Quiz Website')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: header}"></header>
+<main class="site-main">
+
+    <section>
+        <h1>Your friends</h1>
+        <p><a class="btn-link" th:href="@{/users/lookup}">Find someone</a></p>
+
+        <p th:if="${#lists.isEmpty(friends)}" class="muted">You haven't added any friends yet.</p>
+        <ul th:unless="${#lists.isEmpty(friends)}">
+            <li th:each="f : ${friends}">
+                <a th:href="@{/users/view(id=${f.id})}" th:text="${f.username}">friend</a>
+                <form method="post" th:action="@{/friends/action}" style="display:inline">
+                    <input type="hidden" name="intent" value="remove">
+                    <input type="hidden" name="otherId" th:value="${f.id}">
+                    <input type="hidden" name="returnTo" value="/friends">
+                    <button type="submit" class="btn-link">remove</button>
+                </form>
+            </li>
+        </ul>
+    </section>
+
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
