@@ -1,12 +1,12 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.Answer;
-import com.quizwebsite.model.MultiSelectQuestion;
-import com.quizwebsite.model.Question;
 import com.quizwebsite.model.Quiz;
 import com.quizwebsite.model.QuizStatistics;
 import com.quizwebsite.model.ReportStatus;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.question.Answer;
+import com.quizwebsite.model.question.MultiSelectQuestion;
+import com.quizwebsite.model.question.Question;
 import com.quizwebsite.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;

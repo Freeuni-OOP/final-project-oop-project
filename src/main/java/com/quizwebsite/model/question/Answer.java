@@ -1,4 +1,4 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.question;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

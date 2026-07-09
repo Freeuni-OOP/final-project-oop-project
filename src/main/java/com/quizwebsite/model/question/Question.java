@@ -1,5 +1,6 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.question;
 
+import com.quizwebsite.model.Quiz;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;

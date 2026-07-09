@@ -1,9 +1,9 @@
 package com.quizwebsite.util;
 
-import com.quizwebsite.model.Answer;
-import com.quizwebsite.model.MultipleChoiceQuestion;
-import com.quizwebsite.model.MultiSelectQuestion;
-import com.quizwebsite.model.Question;
+import com.quizwebsite.model.question.Answer;
+import com.quizwebsite.model.question.MultiSelectQuestion;
+import com.quizwebsite.model.question.MultipleChoiceQuestion;
+import com.quizwebsite.model.question.Question;
 
 import java.util.ArrayList;
 import java.util.List;

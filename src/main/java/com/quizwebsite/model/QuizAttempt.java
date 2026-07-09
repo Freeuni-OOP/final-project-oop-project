@@ -1,5 +1,7 @@
 package com.quizwebsite.model;
 
+import com.quizwebsite.model.question.Question;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;

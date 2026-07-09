@@ -1,5 +1,8 @@
 package com.quizwebsite.model;
 
+import com.quizwebsite.model.question.Answer;
+import com.quizwebsite.model.question.Question;
+import com.quizwebsite.model.question.QuestionResponseQuestion;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,16 +1,16 @@
 package com.quizwebsite.web;
 
-import com.quizwebsite.model.Answer;
-import com.quizwebsite.model.FillBlankQuestion;
-import com.quizwebsite.model.MultipleChoiceQuestion;
-import com.quizwebsite.model.MultiAnswerQuestion;
-import com.quizwebsite.model.MultiSelectQuestion;
-import com.quizwebsite.model.PictureResponseQuestion;
-import com.quizwebsite.model.Question;
-import com.quizwebsite.model.QuestionResponseQuestion;
 import com.quizwebsite.model.Quiz;
 import com.quizwebsite.model.QuizAttempt;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.question.Answer;
+import com.quizwebsite.model.question.FillBlankQuestion;
+import com.quizwebsite.model.question.MultiAnswerQuestion;
+import com.quizwebsite.model.question.MultiSelectQuestion;
+import com.quizwebsite.model.question.MultipleChoiceQuestion;
+import com.quizwebsite.model.question.PictureResponseQuestion;
+import com.quizwebsite.model.question.Question;
+import com.quizwebsite.model.question.QuestionResponseQuestion;
 import com.quizwebsite.service.AchievementEngine;
 import com.quizwebsite.service.HistoryService;
 import com.quizwebsite.service.PrivacyService;
@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Collections;
