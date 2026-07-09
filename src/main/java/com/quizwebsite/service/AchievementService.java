@@ -1,24 +1,30 @@
 package com.quizwebsite.service;
 
+import com.quizwebsite.model.User;
 import com.quizwebsite.model.achievement.Achievement;
 import com.quizwebsite.model.achievement.AchievementActivity;
 import com.quizwebsite.model.achievement.AchievementKind;
 import com.quizwebsite.repository.AchievementRepository;
+import com.quizwebsite.repository.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /** Reads and writes the achievements table. */
 @Service
 public class AchievementService {
 
     private final AchievementRepository achievementRepository;
+    private final UserRepository userRepository;
 
-    public AchievementService(AchievementRepository achievementRepository) {
+    public AchievementService(AchievementRepository achievementRepository, UserRepository userRepository) {
         this.achievementRepository = achievementRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -51,6 +57,14 @@ public class AchievementService {
     @Transactional(readOnly = true)
     public List<AchievementActivity> recentForUsers(List<Integer> userIds, int limit) {
         if (userIds == null || userIds.isEmpty()) return List.of();
-        return achievementRepository.recentForUsers(userIds, PageRequest.of(0, limit));
+
+        List<Achievement> achievements =
+                achievementRepository.findByUserIdInOrderByAwardedAtDesc(userIds, PageRequest.of(0, limit));
+        Map<Integer, String> usernames = userRepository.findAllById(userIds).stream()
+                .collect(Collectors.toMap(User::getId, User::getUsername));
+
+        return achievements.stream()
+                .map(a -> new AchievementActivity(a.getUserId(), usernames.get(a.getUserId()), a.getKind(), a.getAwardedAt()))
+                .toList();
     }
 }

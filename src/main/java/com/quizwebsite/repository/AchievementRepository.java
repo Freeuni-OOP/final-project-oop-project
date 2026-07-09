@@ -1,7 +1,6 @@
 package com.quizwebsite.repository;
 
 import com.quizwebsite.model.achievement.Achievement;
-import com.quizwebsite.model.achievement.AchievementActivity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,10 +15,7 @@ public interface AchievementRepository extends JpaRepository<Achievement, Intege
 
     List<Achievement> findByUserIdOrderByAwardedAtDesc(Integer userId);
 
-    @Query("SELECT new com.quizwebsite.model.achievement.AchievementActivity(u.id, u.username, a.kind, a.awardedAt) " +
-           "FROM Achievement a JOIN User u ON u.id = a.userId " +
-           "WHERE a.userId IN :userIds ORDER BY a.awardedAt DESC")
-    List<AchievementActivity> recentForUsers(@Param("userIds") List<Integer> userIds, Pageable pageable);
+    List<Achievement> findByUserIdInOrderByAwardedAtDesc(List<Integer> userIds, Pageable pageable);
 
     long countByUserId(Integer userId);
 
