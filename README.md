@@ -141,7 +141,12 @@ MySQL/MariaDB instance running.
 ```text
 com.quizwebsite
 |-- QuizWebsiteApplication
+|-- config
 |-- model
+|   |-- question
+|   |-- social
+|   |-- achievement
+|   `-- activity
 |-- repository
 |-- service
 |-- web
