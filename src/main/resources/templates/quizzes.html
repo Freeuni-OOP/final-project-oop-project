@@ -9,13 +9,41 @@
         <h1>All quizzes</h1>
         <p><a class="btn-primary" th:href="@{/quizzes/new}">Create a quiz</a></p>
 
+        <form method="get" th:action="@{/quizzes}" class="card-form">
+            <label>Search
+                <input type="text" name="q" th:value="${query}" placeholder="Quiz name or description">
+            </label>
+            <label>Category
+                <select name="category">
+                    <option value="">Any category</option>
+                    <option th:each="c : ${categories}"
+                            th:value="${c.name}"
+                            th:selected="${c.name == selectedCategory}"
+                            th:text="${c.name}">Category</option>
+                </select>
+            </label>
+            <label>Tag
+                <select name="tag">
+                    <option value="">Any tag</option>
+                    <option th:each="t : ${tags}"
+                            th:value="${t.name}"
+                            th:selected="${t.name == selectedTag}"
+                            th:text="${t.name}">Tag</option>
+                </select>
+            </label>
+            <button type="submit">Filter quizzes</button>
+            <a class="btn-link" th:href="@{/quizzes}">Clear filters</a>
+        </form>
+
         <p th:if="${#lists.isEmpty(quizzes)}" class="muted">No quizzes yet. Be the first to create one!</p>
         <table th:unless="${#lists.isEmpty(quizzes)}" class="data-table">
-            <thead><tr><th>Name</th><th>By</th><th>Created</th></tr></thead>
+            <thead><tr><th>Name</th><th>By</th><th>Category</th><th>Tags</th><th>Created</th></tr></thead>
             <tbody>
             <tr th:each="q : ${quizzes}">
                 <td><a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a></td>
                 <td th:text="${q.creatorUsername}">creator</td>
+                <td th:text="${q.categoryName == null ? 'Uncategorized' : q.categoryName}">category</td>
+                <td th:text="${q.tagsText}">tags</td>
                 <td th:text="${q.createdAt}">created</td>
             </tr>
             </tbody>
