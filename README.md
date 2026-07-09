@@ -62,9 +62,21 @@ on `localhost:3306` and creates the `quiz_website` database itself
 automatically from the `@Entity` classes (`ddl-auto=update`) — there's no
 `schema.sql` file, so nothing needs to be run manually.
 
-There's no demo/seed data either. Register your own account after starting
-the app (the first registered user isn't an admin automatically — promote a
-user manually in the database if you need admin access).
+A few demo accounts are created automatically on first startup, if the
+database is empty:
+
+```text
+admin / admin123
+alex  / password
+sam   / password
+```
+
+`admin` is already promoted to an admin account. To disable this (e.g. once
+you have real data you don't want touched), set:
+
+```properties
+quizwebsite.seed.enabled=false
+```
 
 To use different credentials, override the datasource with environment
 variables:
