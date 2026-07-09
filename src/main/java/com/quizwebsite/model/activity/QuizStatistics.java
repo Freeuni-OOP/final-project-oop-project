@@ -1,4 +1,4 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.activity;
 
 import com.quizwebsite.util.TimeFormat;
 

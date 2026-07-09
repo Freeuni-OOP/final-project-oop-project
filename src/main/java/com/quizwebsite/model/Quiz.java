@@ -1,5 +1,6 @@
 package com.quizwebsite.model;
 
+import com.quizwebsite.model.question.Question;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

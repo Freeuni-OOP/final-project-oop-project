@@ -1,8 +1,8 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.Achievement;
-import com.quizwebsite.model.AchievementActivity;
-import com.quizwebsite.model.AchievementKind;
+import com.quizwebsite.model.achievement.Achievement;
+import com.quizwebsite.model.achievement.AchievementActivity;
+import com.quizwebsite.model.achievement.AchievementKind;
 import com.quizwebsite.repository.AchievementRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;

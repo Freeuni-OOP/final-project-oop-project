@@ -1,5 +1,7 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.social;
 
+import com.quizwebsite.model.Quiz;
+import com.quizwebsite.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

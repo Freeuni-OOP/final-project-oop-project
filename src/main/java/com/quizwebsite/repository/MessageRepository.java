@@ -1,6 +1,6 @@
 package com.quizwebsite.repository;
 
-import com.quizwebsite.model.Message;
+import com.quizwebsite.model.social.Message;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

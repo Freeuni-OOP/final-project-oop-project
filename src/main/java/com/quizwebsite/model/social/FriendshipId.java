@@ -1,4 +1,4 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.social;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.Message;
+import com.quizwebsite.model.social.Message;
 import com.quizwebsite.repository.HistoryRepository;
 import com.quizwebsite.repository.MessageRepository;
 import com.quizwebsite.repository.QuizRepository;

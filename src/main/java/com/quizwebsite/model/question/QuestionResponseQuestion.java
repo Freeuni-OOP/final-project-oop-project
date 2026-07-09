@@ -1,4 +1,4 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.question;
 
 import com.quizwebsite.util.TextMatcher;
 import jakarta.persistence.DiscriminatorValue;

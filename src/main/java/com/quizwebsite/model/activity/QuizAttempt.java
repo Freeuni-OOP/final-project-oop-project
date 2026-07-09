@@ -1,5 +1,7 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.activity;
 
+import com.quizwebsite.model.Quiz;
+import com.quizwebsite.model.question.Question;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 /**
  * Mutable, session-bound state for one in-progress quiz attempt.
  *

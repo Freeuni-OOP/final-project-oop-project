@@ -1,4 +1,4 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.achievement;
 
 import java.time.LocalDateTime;
 

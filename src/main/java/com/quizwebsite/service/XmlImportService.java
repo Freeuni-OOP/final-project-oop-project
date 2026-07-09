@@ -1,26 +1,26 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.Answer;
-import com.quizwebsite.model.FillBlankQuestion;
-import com.quizwebsite.model.MultiAnswerQuestion;
-import com.quizwebsite.model.MultiSelectQuestion;
-import com.quizwebsite.model.MultipleChoiceQuestion;
-import com.quizwebsite.model.PictureResponseQuestion;
-import com.quizwebsite.model.Question;
-import com.quizwebsite.model.QuestionResponseQuestion;
 import com.quizwebsite.model.Quiz;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.question.Answer;
+import com.quizwebsite.model.question.FillBlankQuestion;
+import com.quizwebsite.model.question.MultiAnswerQuestion;
+import com.quizwebsite.model.question.MultiSelectQuestion;
+import com.quizwebsite.model.question.MultipleChoiceQuestion;
+import com.quizwebsite.model.question.PictureResponseQuestion;
+import com.quizwebsite.model.question.Question;
+import com.quizwebsite.model.question.QuestionResponseQuestion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 @Service
 public class XmlImportService {

@@ -1,5 +1,7 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.activity;
 
+import com.quizwebsite.model.Quiz;
+import com.quizwebsite.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,14 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "quiz_ratings",
         uniqueConstraints = @UniqueConstraint(name = "uniq_quiz_rating", columnNames = {"quiz_id", "reviewer_id"}))

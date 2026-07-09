@@ -1,14 +1,14 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.Answer;
 import com.quizwebsite.model.Category;
-import com.quizwebsite.model.Question;
 import com.quizwebsite.model.Quiz;
-import com.quizwebsite.model.QuizFavorite;
-import com.quizwebsite.model.QuizRating;
-import com.quizwebsite.model.QuizReport;
-import com.quizwebsite.model.ReportStatus;
 import com.quizwebsite.model.Tag;
+import com.quizwebsite.model.activity.QuizFavorite;
+import com.quizwebsite.model.activity.QuizRating;
+import com.quizwebsite.model.activity.QuizReport;
+import com.quizwebsite.model.activity.ReportStatus;
+import com.quizwebsite.model.question.Answer;
+import com.quizwebsite.model.question.Question;
 import com.quizwebsite.repository.CategoryRepository;
 import com.quizwebsite.repository.HistoryRepository;
 import com.quizwebsite.repository.MessageRepository;

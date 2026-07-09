@@ -1,7 +1,7 @@
 package com.quizwebsite.repository;
 
-import com.quizwebsite.model.QuizReport;
-import com.quizwebsite.model.ReportStatus;
+import com.quizwebsite.model.activity.QuizReport;
+import com.quizwebsite.model.activity.ReportStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

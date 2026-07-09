@@ -1,7 +1,7 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.AchievementKind;
-import com.quizwebsite.model.QuizHistoryEntry;
+import com.quizwebsite.model.achievement.AchievementKind;
+import com.quizwebsite.model.activity.QuizHistoryEntry;
 import com.quizwebsite.repository.HistoryRepository;
 import com.quizwebsite.repository.QuizRepository;
 import org.springframework.data.domain.PageRequest;
