@@ -13,15 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class DataInitializer implements ApplicationRunner {
 
+    private final boolean seedEnabled;
+    private final UserRepository userRepository;
     private final UserService userService;
 
-    public DataInitializer(UserService userService) {
+    public DataInitializer(@Value("${quizwebsite.seed.enabled:true}") boolean seedEnabled,
+                           UserRepository userRepository,
+                           UserService userService) {
+        this.seedEnabled = seedEnabled;
+        this.userRepository = userRepository;
         this.userService = userService;
     }
 
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
+        if (!seedEnabled || userRepository.count() > 0) return;
+
         User admin = userService.create("admin", "admin123");
         userService.promoteToAdmin(admin.getId());
 
