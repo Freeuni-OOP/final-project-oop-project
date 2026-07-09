@@ -1,8 +1,8 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.Friendship;
-import com.quizwebsite.model.Message;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.social.Friendship;
+import com.quizwebsite.model.social.Message;
 import com.quizwebsite.repository.FriendshipRepository;
 import com.quizwebsite.repository.MessageRepository;
 import com.quizwebsite.repository.UserRepository;

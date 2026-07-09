@@ -1,7 +1,7 @@
 package com.quizwebsite.repository;
 
-import com.quizwebsite.model.Friendship;
-import com.quizwebsite.model.FriendshipId;
+import com.quizwebsite.model.social.Friendship;
+import com.quizwebsite.model.social.FriendshipId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
