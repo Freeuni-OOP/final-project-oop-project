@@ -1,5 +1,7 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.activity;
 
+import com.quizwebsite.model.Quiz;
+import com.quizwebsite.model.User;
 import com.quizwebsite.util.TimeFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,12 +14,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-
 /**
  * One completed (non-practice) attempt. Maps to {@code quiz_history}.
  *

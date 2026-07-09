@@ -1,6 +1,6 @@
 package com.quizwebsite.repository;
 
-import com.quizwebsite.model.QuizHistoryEntry;
+import com.quizwebsite.model.activity.QuizHistoryEntry;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

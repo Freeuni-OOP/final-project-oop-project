@@ -1,7 +1,7 @@
 package com.quizwebsite.repository;
 
 import com.quizwebsite.model.Quiz;
-import com.quizwebsite.model.QuizFavorite;
+import com.quizwebsite.model.activity.QuizFavorite;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

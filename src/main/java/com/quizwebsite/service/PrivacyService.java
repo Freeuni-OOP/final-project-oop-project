@@ -1,9 +1,9 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.HistoryActivity;
-import com.quizwebsite.model.QuizHistoryEntry;
 import com.quizwebsite.model.PrivacySetting;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.activity.HistoryActivity;
+import com.quizwebsite.model.activity.QuizHistoryEntry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

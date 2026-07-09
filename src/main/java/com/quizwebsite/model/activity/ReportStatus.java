@@ -1,4 +1,4 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.activity;
 
 /** Review state for user-submitted quiz reports. */
 public enum ReportStatus {

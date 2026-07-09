@@ -1,7 +1,7 @@
 package com.quizwebsite.web;
 
-import com.quizwebsite.model.ReportStatus;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.activity.ReportStatus;
 import com.quizwebsite.service.AnnouncementService;
 import com.quizwebsite.service.HistoryService;
 import com.quizwebsite.service.QuizService;

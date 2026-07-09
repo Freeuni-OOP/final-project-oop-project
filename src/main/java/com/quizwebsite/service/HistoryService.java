@@ -1,7 +1,7 @@
 package com.quizwebsite.service;
 
-import com.quizwebsite.model.QuizHistoryEntry;
-import com.quizwebsite.model.QuizStatistics;
+import com.quizwebsite.model.activity.QuizHistoryEntry;
+import com.quizwebsite.model.activity.QuizStatistics;
 import com.quizwebsite.repository.HistoryRepository;
 import com.quizwebsite.repository.QuizRepository;
 import com.quizwebsite.repository.UserRepository;

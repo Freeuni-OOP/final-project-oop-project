@@ -1,6 +1,6 @@
 package com.quizwebsite.repository;
 
-import com.quizwebsite.model.QuizRating;
+import com.quizwebsite.model.activity.QuizRating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

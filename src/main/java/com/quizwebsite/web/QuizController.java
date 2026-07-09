@@ -1,8 +1,8 @@
 package com.quizwebsite.web;
 
 import com.quizwebsite.model.Quiz;
-import com.quizwebsite.model.QuizAttempt;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.activity.QuizAttempt;
 import com.quizwebsite.model.question.Answer;
 import com.quizwebsite.model.question.FillBlankQuestion;
 import com.quizwebsite.model.question.MultiAnswerQuestion;

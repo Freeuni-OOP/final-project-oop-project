@@ -1,9 +1,9 @@
 package com.quizwebsite.service;
 
 import com.quizwebsite.model.Quiz;
-import com.quizwebsite.model.QuizStatistics;
-import com.quizwebsite.model.ReportStatus;
 import com.quizwebsite.model.User;
+import com.quizwebsite.model.activity.QuizStatistics;
+import com.quizwebsite.model.activity.ReportStatus;
 import com.quizwebsite.model.question.Answer;
 import com.quizwebsite.model.question.MultiSelectQuestion;
 import com.quizwebsite.model.question.Question;

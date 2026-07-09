@@ -1,5 +1,6 @@
-package com.quizwebsite.model;
+package com.quizwebsite.model.activity;
 
+import com.quizwebsite.model.Quiz;
 import com.quizwebsite.model.question.Answer;
 import com.quizwebsite.model.question.Question;
 import com.quizwebsite.model.question.QuestionResponseQuestion;
