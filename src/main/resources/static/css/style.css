@@ -1,8 +1,6 @@
 /* ============================================================
    Quiz Website — design system
    Palette: indigo/violet primary, cyan accent, slate neutrals.
-   Components target the semantic classes the JSPs already use,
-   so layout markup rarely needs to change.
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');

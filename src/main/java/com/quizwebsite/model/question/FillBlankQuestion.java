@@ -22,4 +22,23 @@ public class FillBlankQuestion extends QuestionResponseQuestion {
     @Override
     @Transient
     public String getType() { return TYPE; }
+
+    /** The question text before the blank marker (the whole body if there is none). */
+    @Transient
+    public String getTextBeforeBlank() {
+        String body = getBody() == null ? "" : getBody();
+        int i = body.indexOf(BLANK_TOKEN);
+        return i < 0 ? body : body.substring(0, i);
+    }
+
+    /** The question text after the blank marker ("" if there is none). */
+    @Transient
+    public String getTextAfterBlank() {
+        String body = getBody() == null ? "" : getBody();
+        int i = body.indexOf(BLANK_TOKEN);
+        if (i < 0) return "";
+        int end = i + BLANK_TOKEN.length();
+        while (end < body.length() && body.charAt(end) == '_') end++;  // creators may type extra underscores
+        return body.substring(end);
+    }
 }

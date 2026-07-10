@@ -9,13 +9,11 @@
     <img th:if="${q.imageUrl != null and !q.imageUrl.isEmpty()}" class="prompt-image"
          th:src="${q.imageUrl}" alt="prompt">
 
-    <!-- Fill in the blank: split the body on the ____ marker -->
+    <!-- Fill in the blank: the entity splits its body around the blank marker -->
     <p th:if="${q.type == 'FILL_BLANK'}" class="prompt">
-        <th:block th:with="parts=${#strings.arraySplit(q.body, '____')}">
-            <span th:text="${parts.length > 0 ? parts[0] : ''}"></span>
-            <input class="inline-input" type="text" th:name="'q_' + ${q.id}" required>
-            <span th:if="${parts.length > 1}" th:text="${parts[1]}"></span>
-        </th:block>
+        <span th:text="${q.textBeforeBlank}"></span>
+        <input class="inline-input" type="text" th:name="'q_' + ${q.id}" required>
+        <span th:text="${q.textAfterBlank}"></span>
     </p>
 
     <!-- Multiple choice: radio buttons -->
