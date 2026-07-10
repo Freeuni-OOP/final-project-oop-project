@@ -94,7 +94,7 @@
                 <td><a th:href="@{/quizzes/view(id=${h.quizId})}" th:text="${h.quizName}">quiz</a></td>
                 <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
                 <td th:text="${h.timeTakenFormatted}">0s</td>
-                <td th:text="${h.takenAt}">when</td>
+                <td th:text="${#temporals.format(h.takenAt, 'd MMM yyyy, HH:mm')}">when</td>
             </tr>
             </tbody>
         </table>

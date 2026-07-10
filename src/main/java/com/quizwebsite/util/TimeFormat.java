@@ -1,9 +1,6 @@
 package com.quizwebsite.util;
 
-/**
- * Tiny utility for formatting durations in the JSPs.
- * EL's math support is too limited to do clean "5m 32s" formatting inline.
- */
+/** Formats durations like "5m 32s" for the templates. */
 public final class TimeFormat {
 
     private TimeFormat() {}

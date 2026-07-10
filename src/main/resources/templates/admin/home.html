@@ -66,7 +66,7 @@
         <ul th:unless="${#lists.isEmpty(recentAnnouncements)}">
             <li th:each="a : ${recentAnnouncements}">
                 <strong th:text="${a.adminUsername}">admin</strong>
-                <span class="muted">— <span th:text="${a.createdAt}">when</span></span>
+                <span class="muted">— <span th:text="${#temporals.format(a.createdAt, 'd MMM yyyy, HH:mm')}">when</span></span>
                 <p th:text="${a.body}">body</p>
             </li>
         </ul>

@@ -19,7 +19,7 @@
             <tr th:each="u : ${users}">
                 <td><a th:href="@{/users/view(id=${u.id})}" th:text="${u.username}">user</a></td>
                 <td><span th:if="${u.admin}" class="badge">admin</span></td>
-                <td th:text="${u.createdAt}">when</td>
+                <td th:text="${#temporals.format(u.createdAt, 'd MMM yyyy, HH:mm')}">when</td>
                 <td>
                     <form th:if="${!u.admin}" method="post" th:action="@{/admin/users}" style="display:inline">
                         <input type="hidden" name="intent" value="promote">

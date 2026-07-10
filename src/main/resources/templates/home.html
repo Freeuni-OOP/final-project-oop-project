@@ -22,7 +22,7 @@
             <li th:each="a : ${announcements}">
                 <p>
                     <strong th:text="${a.adminUsername}">admin</strong>
-                    <span class="muted">— <span th:text="${a.createdAt}">when</span></span>
+                    <span class="muted">— <span th:text="${#temporals.format(a.createdAt, 'd MMM yyyy, HH:mm')}">when</span></span>
                 </p>
                 <p th:text="${a.body}">body</p>
             </li>
@@ -67,7 +67,7 @@
                 <td><a th:href="@{/quizzes/view(id=${h.quizId})}" th:text="${h.quizName}">quiz</a></td>
                 <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
                 <td th:text="${h.timeTakenFormatted}">0s</td>
-                <td th:text="${h.takenAt}">when</td>
+                <td th:text="${#temporals.format(h.takenAt, 'd MMM yyyy, HH:mm')}">when</td>
             </tr>
             </tbody>
         </table>
@@ -131,7 +131,7 @@
                 <td><a th:href="@{/users/view(id=${h.userId})}" th:text="${h.username}">friend</a></td>
                 <td><a th:href="@{/quizzes/view(id=${h.quizId})}" th:text="${h.quizName}">quiz</a></td>
                 <td><span th:text="${h.score}">0</span> / <span th:text="${h.maxScore}">0</span></td>
-                <td th:text="${h.takenAt}">when</td>
+                <td th:text="${#temporals.format(h.takenAt, 'd MMM yyyy, HH:mm')}">when</td>
             </tr>
             </tbody>
         </table>
@@ -142,7 +142,7 @@
                 <a th:href="@{/users/view(id=${q.creatorId})}" th:text="${q.creatorUsername}">friend</a>
                 created
                 <a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a>
-                <span class="muted">&middot; <span th:text="${q.createdAt}">when</span></span>
+                <span class="muted">&middot; <span th:text="${#temporals.format(q.createdAt, 'd MMM yyyy, HH:mm')}">when</span></span>
             </li>
         </ul>
 
@@ -152,7 +152,7 @@
                 <a th:href="@{/users/view(id=${ach.userId})}" th:text="${ach.username}">friend</a>
                 earned
                 <strong th:text="${ach.kindEnum != null ? ach.kindEnum.displayName : ach.kind}">achievement</strong>
-                <span class="muted">&middot; <span th:text="${ach.awardedAt}">when</span></span>
+                <span class="muted">&middot; <span th:text="${#temporals.format(ach.awardedAt, 'd MMM yyyy, HH:mm')}">when</span></span>
             </li>
         </ul>
     </section>

@@ -29,7 +29,7 @@
             <li th:each="a : ${announcements}">
                 <p>
                     <strong th:text="${a.adminUsername}">admin</strong>
-                    <span class="muted">— <span th:text="${a.createdAt}">when</span></span>
+                    <span class="muted">— <span th:text="${#temporals.format(a.createdAt, 'd MMM yyyy, HH:mm')}">when</span></span>
                 </p>
                 <p th:text="${a.body}">body</p>
                 <form method="post" th:action="@{/admin/announcements}" style="display:inline">

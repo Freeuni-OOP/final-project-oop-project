@@ -20,7 +20,7 @@
             <tr th:each="q : ${quizzes}">
                 <td><a th:href="@{/quizzes/view(id=${q.id})}" th:text="${q.name}">quiz</a></td>
                 <td th:text="${q.creatorUsername}">creator</td>
-                <td th:text="${q.createdAt}">when</td>
+                <td th:text="${#temporals.format(q.createdAt, 'd MMM yyyy, HH:mm')}">when</td>
                 <td>
                     <form method="post" th:action="@{/admin/quizzes}" style="display:inline"
                           onsubmit="return confirm('Clear all history for this quiz?');">

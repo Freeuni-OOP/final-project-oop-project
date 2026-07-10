@@ -44,7 +44,7 @@
                 <td th:text="${q.creatorUsername}">creator</td>
                 <td th:text="${q.categoryName == null ? 'Uncategorized' : q.categoryName}">category</td>
                 <td th:text="${q.tagsText}">tags</td>
-                <td th:text="${q.createdAt}">created</td>
+                <td th:text="${#temporals.format(q.createdAt, 'd MMM yyyy, HH:mm')}">created</td>
             </tr>
             </tbody>
         </table>
