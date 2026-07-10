@@ -15,7 +15,7 @@
         <input type="hidden" name="type" th:value="${type}">
 
         <label th:if="${type == 'PICTURE_RESPONSE'}">Image URL
-            <input type="url" name="imageUrl" th:value="${imageUrl}"
+            <input type="url" name="imageUrl" th:value="${imageUrl}" maxlength="500"
                    placeholder="https://example.com/image.jpg" required>
         </label>
 
@@ -32,7 +32,7 @@
             <div th:each="i : ${#numbers.sequence(0, fieldsShown - 1)}" class="choice-row">
                 <input th:if="${type == 'MULTIPLE_CHOICE'}" type="radio" name="correct" th:value="${i}" th:checked="${i == 0}">
                 <input th:if="${type == 'MULTI_SELECT'}" type="checkbox" name="correct" th:value="${i}">
-                <input type="text" name="choice" th:placeholder="'Choice ' + (${i} + 1)">
+                <input type="text" name="choice" maxlength="500" th:placeholder="'Choice ' + (${i} + 1)">
             </div>
         </fieldset>
 
@@ -42,13 +42,13 @@
                 <input type="checkbox" name="ordered">
                 Require answers in this order
             </label>
-            <input th:each="i : ${#numbers.sequence(1, fieldsShown)}" type="text" name="answer"
+            <input th:each="i : ${#numbers.sequence(1, fieldsShown)}" type="text" name="answer" maxlength="500"
                    th:placeholder="'Expected answer ' + ${i}" th:required="${i <= 2}">
         </fieldset>
 
         <fieldset th:if="${type != 'MULTIPLE_CHOICE' and type != 'MULTI_SELECT' and type != 'MULTI_ANSWER'}">
             <legend>Acceptable answers (any match earns the point)</legend>
-            <input th:each="i : ${#numbers.sequence(1, fieldsShown)}" type="text" name="answer"
+            <input th:each="i : ${#numbers.sequence(1, fieldsShown)}" type="text" name="answer" maxlength="500"
                    th:placeholder="'Acceptable answer ' + ${i}" th:required="${i == 1}">
         </fieldset>
 

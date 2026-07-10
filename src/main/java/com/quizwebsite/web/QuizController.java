@@ -241,6 +241,9 @@ public class QuizController {
                 && (trimmedImage == null || trimmedImage.isEmpty())) {
             error = "Picture-Response questions need an image URL.";
         }
+        if (error == null && trimmedImage != null && trimmedImage.length() > 500) {
+            error = "Image URL is too long (max 500 characters). Link to the image instead of pasting its data.";
+        }
         if (error == null && FillBlankQuestion.TYPE.equals(type)
                 && !trimmedBody.contains(FillBlankQuestion.BLANK_TOKEN)) {
             error = "Fill-in-the-Blank questions must contain \"" + FillBlankQuestion.BLANK_TOKEN + "\" to mark the blank.";
@@ -265,6 +268,9 @@ public class QuizController {
             } else if (error == null && MultiAnswerQuestion.TYPE.equals(type) && answers.size() < 2) {
                 error = "Multi-answer questions need at least 2 expected answers.";
             }
+        }
+        if (error == null && answers.stream().anyMatch(a -> a.getText().length() > 500)) {
+            error = "Answers can be at most 500 characters long.";
         }
 
         if (error != null) {
