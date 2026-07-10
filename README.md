@@ -62,7 +62,7 @@ on `localhost:3306` and creates the `quiz_website` database itself
 automatically from the `@Entity` classes (`ddl-auto=update`) — there's no
 `schema.sql` file, so nothing needs to be run manually.
 
-A few demo accounts are created automatically on first startup, if the
+A small set of demo data is created automatically on first startup, if the
 database is empty:
 
 ```text
@@ -71,8 +71,12 @@ alex  / password
 sam   / password
 ```
 
-`admin` is already promoted to an admin account. To disable this (e.g. once
-you have real data you don't want touched), set:
+`admin` is already promoted to an admin account. The seed also creates a
+welcome announcement, two sample quizzes with questions, a friendship between
+`alex` and `sam`, some quiz history, a couple of favorites/ratings, and a
+few achievements — enough that the app isn't empty on first login.
+
+To disable the seed (e.g. once you have real data you don't want touched), set:
 
 ```properties
 quizwebsite.seed.enabled=false
